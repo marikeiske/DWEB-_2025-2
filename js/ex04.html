@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 4 - Texto Invertido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+        .resultado h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        .exemplo {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border-left: 4px solid #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inversor de Texto</h1>
+        <p>Digite um texto no primeiro campo e veja ele aparecer invertido no segundo campo:</p>
+        
+        <div class="input-group">
+            <label for="textoOriginal">Texto Original:</label>
+            <input 
+                type="text" 
+                id="textoOriginal" 
+                placeholder="Digite seu texto aqui..."
+                oninput="inverterTexto()">
+        </div>
+        
+        <div class="input-group">
+            <label for="textoInvertido">Texto Invertido:</label>
+            <input 
+                type="text" 
+                id="textoInvertido" 
+                placeholder="Texto invertido aparecerá aqui..."
+                readonly>
+        </div>
+        
+        <div class="resultado">
+            <h3>Como funciona:</h3>
+            <p>O programa pega cada caractere do texto original e os coloca em ordem reversa.</p>
+            
+            <div class="exemplo">
+                <strong>Exemplos:</strong><br>
+                "Olá" → "álO"<br>
+                "JavaScript" → "tpircSavaJ"<br>
+                "12345" → "54321"
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function inverterTexto() {
+            const textoOriginal = document.getElementById('textoOriginal').value;
+            const textoInvertido = document.getElementById('textoInvertido');
+            
+            // Inverte o texto
+            const textoInvertidoValue = textoOriginal.split('').reverse().join('');
+            textoInvertido.value = textoInvertidoValue;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 2 - Botão Interativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .botao-interativo {
+            padding: 20px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-weight: bold;
+        }
+        .azul {
+            background-color: #007bff;
+        }
+        .verde {
+            background-color: #28a745;
+        }
+        .vermelho {
+            background-color: #dc3545;
+        }
+        .instrucoes {
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Botão Interativo</h1>
+        <button 
+            class="botao-interativo azul" 
+            id="botao"
+            onmouseover="mudarCor('verde')"
+            onmouseout="mudarCor('azul')"
+            onclick="mudarCor('vermelho')">
+            Clique em mim!
+        </button>
+        
+        <div class="instrucoes">
+            <p><strong>Instruções:</strong></p>
+            <p>• Passe o mouse por cima para ficar verde</p>
+            <p>• Clique para ficar vermelho</p>
+            <p>• Tire o mouse para voltar ao azul</p>
+        </div>
+    </div>
+
+    <script>
+        function mudarCor(cor) {
+            const botao = document.getElementById('botao');
+            botao.className = `botao-interativo ${cor}`;
+        }
+    </script>
+</body>
+</html>

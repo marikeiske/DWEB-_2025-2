@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 12 - Múltiplos de 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .controles {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .parar {
+            background-color: #dc3545;
+        }
+        .parar:hover {
+            background-color: #c82333;
+        }
+        .numeros-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            margin: 20px 0;
+        }
+        .numero {
+            display: inline-block;
+            margin: 2px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .multiplo3 {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+        .nao-multiplo3 {
+            background-color: #6c757d;
+            color: white;
+        }
+        .estatisticas {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .progresso {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+        }
+        .barra-progresso {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progresso-fill {
+            height: 100%;
+            background-color: #28a745;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Identificador de Múltiplos de 3</h1>
+        <p>Este programa exibe os números de 1 até 1000 e identifica quais são múltiplos de 3:</p>
+        
+        <div class="controles">
+            <button onclick="iniciarContagem()">Iniciar Contagem</button>
+            <button class="parar" onclick="pararContagem()">Parar</button>
+            <button onclick="limparNumeros()">Limpar</button>
+        </div>
+        
+        <div class="progresso">
+            <h4>📊 Progresso:</h4>
+            <div class="barra-progresso">
+                <div class="progresso-fill" id="barraProgresso" style="width: 0%"></div>
+            </div>
+            <p id="textoProgresso">0 de 1000 números processados</p>
+        </div>
+        
+        <div class="estatisticas" id="estatisticas">
+            <h4>📈 Estatísticas:</h4>
+            <p><strong>Total de números:</strong> 0</p>
+            <p><strong>Múltiplos de 3:</strong> 0</p>
+            <p><strong>Não múltiplos de 3:</strong> 0</p>
+        </div>
+        
+        <div class="numeros-container" id="numerosContainer">
+            <p style="text-align: center; color: #666;">Clique em "Iniciar Contagem" para começar...</p>
+        </div>
+    </div>
+
+    <script>
+        let contador = 0;
+        let contadorMultiplos3 = 0;
+        let contadorNaoMultiplos3 = 0;
+        let intervalo;
+        let executando = false;
+        
+        function iniciarContagem() {
+            if (executando) return;
+            
+            executando = true;
+            contador = 0;
+            contadorMultiplos3 = 0;
+            contadorNaoMultiplos3 = 0;
+            
+            document.getElementById('numerosContainer').innerHTML = '';
+            atualizarEstatisticas();
+            
+            intervalo = setInterval(() => {
+                contador++;
+                
+                if (contador <= 1000) {
+                    const numero = document.createElement('div');
+                    numero.className = `numero ${contador % 3 === 0 ? 'multiplo3' : 'nao-multiplo3'}`;
+                    numero.textContent = contador;
+                    
+                    if (contador % 3 === 0) {
+                        contadorMultiplos3++;
+                    } else {
+                        contadorNaoMultiplos3++;
+                    }
+                    
+                    document.getElementById('numerosContainer').appendChild(numero);
+                    
+                    // Atualizar barra de progresso
+                    const progresso = (contador / 1000) * 100;
+                    document.getElementById('barraProgresso').style.width = progresso + '%';
+                    document.getElementById('textoProgresso').textContent = `${contador} de 1000 números processados`;
+                    
+                    atualizarEstatisticas();
+                    
+                    // Auto-scroll para o final
+                    document.getElementById('numerosContainer').scrollTop = document.getElementById('numerosContainer').scrollHeight;
+                } else {
+                    pararContagem();
+                    alert('Contagem concluída! Todos os 1000 números foram processados.');
+                }
+            }, 50); // 50ms entre cada número
+        }
+        
+        function pararContagem() {
+            if (intervalo) {
+                clearInterval(intervalo);
+                intervalo = null;
+            }
+            executando = false;
+        }
+        
+        function limparNumeros() {
+            pararContagem();
+            document.getElementById('numerosContainer').innerHTML = '<p style="text-align: center; color: #666;">Clique em "Iniciar Contagem" para começar...</p>';
+            document.getElementById('barraProgresso').style.width = '0%';
+            document.getElementById('textoProgresso').textContent = '0 de 1000 números processados';
+            contador = 0;
+            contadorMultiplos3 = 0;
+            contadorNaoMultiplos3 = 0;
+            atualizarEstatisticas();
+        }
+        
+        function atualizarEstatisticas() {
+            document.getElementById('estatisticas').innerHTML = `
+                <h4>📈 Estatísticas:</h4>
+                <p><strong>Total de números:</strong> ${contador}</p>
+                <p><strong>Múltiplos de 3:</strong> ${contadorMultiplos3}</p>
+                <p><strong>Não múltiplos de 3:</strong> ${contadorNaoMultiplos3}</p>
+                <p><strong>Porcentagem de múltiplos de 3:</strong> ${contador > 0 ? ((contadorMultiplos3 / contador) * 100).toFixed(1) : 0}%</p>
+            `;
+        }
+    </script>
+</body>
+</html>

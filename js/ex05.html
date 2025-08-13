@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 5 - Bruce Banner / Hulk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .imagem-container {
+            position: relative;
+            display: inline-block;
+            margin: 20px 0;
+        }
+        .imagem {
+            width: 300px;
+            height: 300px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .instrucoes {
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bruce Banner / Hulk</h1>
+        <p>Passe o mouse sobre a imagem para ver a transformação!</p>
+        
+        <div class="imagem-container">
+            <img 
+                src="https://preview.redd.it/this-is-the-most-accurate-live-action-looking-bruce-banner-v0-9brcejldyixe1.jpeg?auto=webp&s=795ab9d25e45ee735942d966e6cb9a0b12039af0" 
+                alt="Bruce Banner" 
+                class="imagem" 
+                id="imagem"
+                onmouseover="transformarHulk()"
+                onmouseout="voltarBruce()">
+        </div>
+        
+        <div class="instrucoes">
+            <p><strong>Instruções:</strong></p>
+            <p>• Passe o mouse por cima para virar Hulk</p>
+            <p>• Tire o mouse para voltar a ser Bruce Banner</p>
+        </div>
+    </div>
+
+    <script>
+        function transformarHulk() {
+            const imagem = document.getElementById('imagem');
+            imagem.src = "https://upload.wikimedia.org/wikipedia/pt/9/91/Bruce_Banner.jpg";
+            imagem.alt = "Hulk";
+        }
+        
+        function voltarBruce() {
+            const imagem = document.getElementById('imagem');
+            imagem.src = "https://preview.redd.it/this-is-the-most-accurate-live-action-looking-bruce-banner-v0-9brcejldyixe1.jpeg?auto=webp&s=795ab9d25e45ee735942d966e6cb9a0b12039af0";
+            imagem.alt = "Bruce Banner";
+        }
+    </script>
+</body>
+</html>

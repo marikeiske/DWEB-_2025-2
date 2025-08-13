@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 6 - Ordenação de Nomes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .nomes-lista {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ordenação de Nomes</h1>
+        <p>Digite 5 nomes para ordená-los alfabeticamente:</p>
+        
+        <div class="input-group">
+            <input type="text" id="nome1" placeholder="Nome 1">
+        </div>
+        <div class="input-group">
+            <input type="text" id="nome2" placeholder="Nome 2">
+        </div>
+        <div class="input-group">
+            <input type="text" id="nome3" placeholder="Nome 3">
+        </div>
+        <div class="input-group">
+            <input type="text" id="nome4" placeholder="Nome 4">
+        </div>
+        <div class="input-group">
+            <input type="text" id="nome5" placeholder="Nome 5">
+        </div>
+        
+        <button onclick="processarNomes()">Processar Nomes</button>
+        
+        <div class="resultado" id="resultado"></div>
+    </div>
+
+    <script>
+        function processarNomes() {
+            const nomes = [];
+            
+            // Coletar nomes dos inputs
+            for (let i = 1; i <= 5; i++) {
+                const nome = document.getElementById(`nome${i}`).value.trim();
+                if (nome) {
+                    nomes.push(nome);
+                }
+            }
+            
+            if (nomes.length < 5) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite todos os 5 nomes!';
+                return;
+            }
+            
+            // Ordenar nomes
+            const nomesCrescente = [...nomes].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+            const nomesDecrescente = [...nomes].sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase()));
+            
+            // Converter para minúsculas e maiúsculas
+            const nomesMinusculo = nomesCrescente.map(nome => nome.toLowerCase());
+            const nomesMaiusculo = nomesDecrescente.map(nome => nome.toUpperCase());
+            
+            document.getElementById('resultado').innerHTML = `
+                <h3>Resultados:</h3>
+                
+                <div class="nomes-lista">
+                    <h4>Ordem Alfabética Crescente (Minúsculas):</h4>
+                    <p>${nomesMinusculo.join(', ')}</p>
+                </div>
+                
+                <div class="nomes-lista">
+                    <h4>Ordem Alfabética Decrescente (Maiúsculas):</h4>
+                    <p>${nomesMaiusculo.join(', ')}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

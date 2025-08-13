@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 13 - Média Aritmética e Mensagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .tabela-criterios {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .tabela-criterios table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .tabela-criterios th, .tabela-criterios td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        .tabela-criterios th {
+            background-color: #2196f3;
+            color: white;
+        }
+        .mensagem-resultado {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .reprovado {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .exame {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+        .aprovado {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Média Aritmética</h1>
+        <p>Digite duas notas para calcular a média e ver a mensagem correspondente:</p>
+        
+        <div class="input-group">
+            <label for="nota1">Primeira Nota:</label>
+            <input type="number" id="nota1" placeholder="Digite a primeira nota" step="0.1" min="0" max="10">
+        </div>
+        
+        <div class="input-group">
+            <label for="nota2">Segunda Nota:</label>
+            <input type="number" id="nota2" placeholder="Digite a segunda nota" step="0.1" min="0" max="10">
+        </div>
+        
+        <button onclick="calcularMedia()">Calcular Média</button>
+        
+        <div class="resultado" id="resultado"></div>
+        
+        <div class="tabela-criterios">
+            <h4>📋 Critérios de Avaliação:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Média Aritmética</th>
+                        <th>Mensagem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0,0 – 4,0</td>
+                        <td>Reprovado</td>
+                    </tr>
+                    <tr>
+                        <td>4,1 – 7,0</td>
+                        <td>Exame</td>
+                    </tr>
+                    <tr>
+                        <td>7,1 – 10,0</td>
+                        <td>Aprovado</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function calcularMedia() {
+            const nota1 = parseFloat(document.getElementById('nota1').value);
+            const nota2 = parseFloat(document.getElementById('nota2').value);
+            
+            if (isNaN(nota1) || isNaN(nota2) || nota1 < 0 || nota1 > 10 || nota2 < 0 || nota2 > 10) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite notas válidas entre 0 e 10!';
+                return;
+            }
+            
+            const media = (nota1 + nota2) / 2;
+            let mensagem, classeCSS;
+            
+            // Determinar mensagem baseada na média
+            if (media >= 0 && media <= 4.0) {
+                mensagem = 'Reprovado';
+                classeCSS = 'reprovado';
+            } else if (media >= 4.1 && media <= 7.0) {
+                mensagem = 'Exame';
+                classeCSS = 'exame';
+            } else if (media >= 7.1 && media <= 10.0) {
+                mensagem = 'Aprovado';
+                classeCSS = 'aprovado';
+            }
+            
+            document.getElementById('resultado').innerHTML = `
+                <h3>Resultado do Cálculo:</h3>
+                
+                <div class="tabela-criterios">
+                    <h4>📊 Notas Informadas:</h4>
+                    <p><strong>Primeira nota:</strong> ${nota1.toFixed(1)}</p>
+                    <p><strong>Segunda nota:</strong> ${nota2.toFixed(1)}</p>
+                    <p><strong>Média aritmética:</strong> ${media.toFixed(1)}</p>
+                </div>
+                
+                <div class="mensagem-resultado ${classeCSS}">
+                    <h4>🎯 Resultado Final:</h4>
+                    <p>Mensagem: ${mensagem}</p>
+                </div>
+                
+                <div class="tabela-criterios">
+                    <h4>💡 Explicação:</h4>
+                    <p>A média ${media.toFixed(1)} está no intervalo ${media <= 4.0 ? '0,0 – 4,0' : media <= 7.0 ? '4,1 – 7,0' : '7,1 – 10,0'},</p>
+                    <p>portanto a mensagem correspondente é: <strong>${mensagem}</strong></p>
+                </div>
+            `;
+        }
+        
+        // Permitir calcular ao pressionar Enter
+        document.getElementById('nota1').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('nota2').focus();
+            }
+        });
+        
+        document.getElementById('nota2').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calcularMedia();
+            }
+        });
+    </script>
+</body>
+</html>

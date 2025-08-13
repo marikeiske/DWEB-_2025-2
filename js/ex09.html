@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 9 - Calculadora com Potência</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .calculadora {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        input {
+            grid-column: span 4;
+            padding: 15px;
+            font-size: 18px;
+            text-align: right;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        button:hover {
+            background-color: #e9ecef;
+        }
+        .operador {
+            background-color: #007bff;
+            color: white;
+        }
+        .operador:hover {
+            background-color: #0056b3;
+        }
+        .igual {
+            background-color: #28a745;
+            color: white;
+        }
+        .igual:hover {
+            background-color: #218838;
+        }
+        .limpar {
+            background-color: #dc3545;
+            color: white;
+        }
+        .limpar:hover {
+            background-color: #c82333;
+        }
+        .potencia {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .potencia:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora com Potência</h1>
+        
+        <div class="calculadora">
+            <input type="text" id="display" readonly>
+            
+            <button class="limpar" onclick="limpar()">C</button>
+            <button class="operador" onclick="adicionarOperador('/')">/</button>
+            <button class="operador" onclick="adicionarOperador('*')">×</button>
+            <button class="limpar" onclick="apagar()">←</button>
+            
+            <button onclick="adicionarNumero('7')">7</button>
+            <button onclick="adicionarNumero('8')">8</button>
+            <button onclick="adicionarNumero('9')">9</button>
+            <button class="operador" onclick="adicionarOperador('-')">-</button>
+            
+            <button onclick="adicionarNumero('4')">4</button>
+            <button onclick="adicionarNumero('5')">5</button>
+            <button onclick="adicionarNumero('6')">6</button>
+            <button class="operador" onclick="adicionarOperador('+')">+</button>
+            
+            <button onclick="adicionarNumero('1')">1</button>
+            <button onclick="adicionarNumero('2')">2</button>
+            <button onclick="adicionarNumero('3')">3</button>
+            <button class="igual" onclick="calcular()">=</button>
+            
+            <button onclick="adicionarNumero('0')" style="grid-column: span 2;">0</button>
+            <button onclick="adicionarNumero('.')">.</button>
+            <button class="potencia" onclick="calcularPotencia()">^</button>
+        </div>
+        
+        <div style="margin-top: 20px; color: #666;">
+            <p><strong>Instruções:</strong></p>
+            <p>• Use o botão ^ para calcular potências</p>
+            <p>• Primeiro número = base, segundo = expoente</p>
+        </div>
+    </div>
+
+    <script>
+        let display = '';
+        let primeiroNumero = '';
+        let operador = '';
+        let novoNumero = true;
+        
+        function adicionarNumero(num) {
+            if (novoNumero) {
+                document.getElementById('display').value = num;
+                novoNumero = false;
+            } else {
+                document.getElementById('display').value += num;
+            }
+        }
+        
+        function adicionarOperador(op) {
+            primeiroNumero = document.getElementById('display').value;
+            operador = op;
+            novoNumero = true;
+        }
+        
+        function calcular() {
+            if (operador && primeiroNumero) {
+                const segundoNumero = document.getElementById('display').value;
+                let resultado;
+                
+                switch(operador) {
+                    case '+':
+                        resultado = parseFloat(primeiroNumero) + parseFloat(segundoNumero);
+                        break;
+                    case '-':
+                        resultado = parseFloat(primeiroNumero) - parseFloat(segundoNumero);
+                        break;
+                    case '*':
+                        resultado = parseFloat(primeiroNumero) * parseFloat(segundoNumero);
+                        break;
+                    case '/':
+                        resultado = parseFloat(primeiroNumero) / parseFloat(segundoNumero);
+                        break;
+                }
+                
+                document.getElementById('display').value = resultado;
+                operador = '';
+                novoNumero = true;
+            }
+        }
+        
+        function calcularPotencia() {
+            if (primeiroNumero && operador === '^') {
+                const expoente = document.getElementById('display').value;
+                const resultado = Math.pow(parseFloat(primeiroNumero), parseFloat(expoente));
+                document.getElementById('display').value = resultado;
+                operador = '';
+                novoNumero = true;
+            } else {
+                primeiroNumero = document.getElementById('display').value;
+                operador = '^';
+                novoNumero = true;
+            }
+        }
+        
+        function limpar() {
+            document.getElementById('display').value = '';
+            primeiroNumero = '';
+            operador = '';
+            novoNumero = true;
+        }
+        
+        function apagar() {
+            const display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 10 - Contador de Letras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .contagem {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .exemplo {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border-left: 4px solid #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contador de Letras</h1>
+        <p>Digite uma palavra e uma letra para contar quantas vezes ela aparece:</p>
+        
+        <div class="input-group">
+            <label for="palavra">Palavra:</label>
+            <input 
+                type="text" 
+                id="palavra" 
+                placeholder="Digite uma palavra..."
+                onkeypress="if(event.key==='Enter') document.getElementById('letra').focus()">
+        </div>
+        
+        <div class="input-group">
+            <label for="letra">Letra:</label>
+            <input 
+                type="text" 
+                id="letra" 
+                placeholder="Digite uma letra..."
+                maxlength="1"
+                onkeypress="if(event.key==='Enter') contarLetras()">
+        </div>
+        
+        <button onclick="contarLetras()">Contar Letras</button>
+        
+        <div class="resultado" id="resultado"></div>
+        
+        <div class="exemplo">
+            <h4>💡 Exemplos:</h4>
+            <p><strong>"banana" + "a"</strong> → 3 vezes</p>
+            <p><strong>"javascript" + "a"</strong> → 2 vezes</p>
+            <p><strong>"programação" + "m"</strong> → 1 vez</p>
+        </div>
+    </div>
+
+    <script>
+        function contarLetras() {
+            const palavra = document.getElementById('palavra').value.trim().toLowerCase();
+            const letra = document.getElementById('letra').value.trim().toLowerCase();
+            
+            if (!palavra || !letra) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite tanto a palavra quanto a letra!';
+                return;
+            }
+            
+            if (letra.length !== 1) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite apenas uma letra!';
+                return;
+            }
+            
+            // Contar ocorrências da letra na palavra
+            const contagem = (palavra.match(new RegExp(letra, 'g')) || []).length;
+            
+            // Destacar as letras encontradas
+            const palavraDestacada = palavra.replace(new RegExp(letra, 'g'), `<span style="background-color: #ffeb3b; padding: 2px 4px; border-radius: 3px;">${letra}</span>`);
+            
+            document.getElementById('resultado').innerHTML = `
+                <h3>Resultado da Contagem:</h3>
+                
+                <div class="contagem">
+                    <h4>📊 Análise:</h4>
+                    <p><strong>Palavra:</strong> ${palavra}</p>
+                    <p><strong>Letra procurada:</strong> ${letra}</p>
+                    <p><strong>Palavra com destaque:</strong> ${palavraDestacada}</p>
+                </div>
+                
+                <div class="contagem">
+                    <h4>🔢 Resultado:</h4>
+                    <p><strong>A letra "${letra}" aparece ${contagem} vez${contagem !== 1 ? 'es' : ''} na palavra "${palavra}".</strong></p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

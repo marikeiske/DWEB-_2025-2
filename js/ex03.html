@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 3 - Tabuada</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .tabuada {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .tabuada h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .linha-tabuada {
+            padding: 8px;
+            margin: 5px 0;
+            background-color: white;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Tabuada</h1>
+        <p>Digite um número para ver sua tabuada completa:</p>
+        
+        <input type="number" id="numero" placeholder="Digite um número" min="1">
+        <button onclick="gerarTabuada()">Gerar Tabuada</button>
+        
+        <div class="tabuada" id="tabuada"></div>
+    </div>
+
+    <script>
+        function gerarTabuada() {
+            const numero = parseInt(document.getElementById('numero').value);
+            const tabuadaDiv = document.getElementById('tabuada');
+            
+            if (isNaN(numero) || numero < 1) {
+                tabuadaDiv.innerHTML = '<strong>Erro:</strong> Digite um número válido maior que zero!';
+                return;
+            }
+            
+            let html = `<h3>Tabuada do ${numero}</h3>`;
+            
+            for (let i = 1; i <= 10; i++) {
+                const resultado = numero * i;
+                html += `<div class="linha-tabuada">${numero} × ${i} = ${resultado}</div>`;
+            }
+            
+            tabuadaDiv.innerHTML = html;
+        }
+        
+        // Gerar tabuada ao pressionar Enter
+        document.getElementById('numero').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                gerarTabuada();
+            }
+        });
+    </script>
+</body>
+</html>

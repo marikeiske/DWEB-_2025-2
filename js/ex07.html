@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 7 - Análise de Nome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin: 15px 0;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .estatistica {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análise de Nome Completo</h1>
+        <p>Digite seu nome completo para analisarmos:</p>
+        
+        <input 
+            type="text" 
+            id="nomeCompleto" 
+            placeholder="Digite seu nome completo..."
+            onkeypress="if(event.key==='Enter') analisarNome()">
+        
+        <button onclick="analisarNome()">Analisar Nome</button>
+        
+        <div class="resultado" id="resultado"></div>
+    </div>
+
+    <script>
+        function analisarNome() {
+            const nomeCompleto = document.getElementById('nomeCompleto').value.trim();
+            
+            if (!nomeCompleto) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite um nome!';
+                return;
+            }
+            
+            // Contar letras (excluindo espaços)
+            const letras = nomeCompleto.replace(/\s/g, '').length;
+            
+            // Contar palavras
+            const palavras = nomeCompleto.split(/\s+/).filter(palavra => palavra.length > 0).length;
+            
+            // Contar vogais
+            const vogais = (nomeCompleto.match(/[aeiouáéíóúâêîôûãõ]/gi) || []).length;
+            
+            document.getElementById('resultado').innerHTML = `
+                <h3>Análise do Nome: "${nomeCompleto}"</h3>
+                
+                <div class="estatistica">
+                    <h4>📊 Estatísticas:</h4>
+                    <p><strong>Total de letras:</strong> ${letras}</p>
+                    <p><strong>Total de palavras:</strong> ${palavras}</p>
+                    <p><strong>Total de vogais:</strong> ${vogais}</p>
+                </div>
+                
+                <div class="estatistica">
+                    <h4>🔍 Detalhes:</h4>
+                    <p><strong>Nome digitado:</strong> ${nomeCompleto}</p>
+                    <p><strong>Nome em maiúsculas:</strong> ${nomeCompleto.toUpperCase()}</p>
+                    <p><strong>Nome em minúsculas:</strong> ${nomeCompleto.toLowerCase()}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 14 - Estatísticas: Média, Moda e Mediana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .estatistica {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .numeros-lista {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+        }
+        .explicacao {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Estatísticas</h1>
+        <p>Digite 10 números para calcular média, moda e mediana:</p>
+        
+        <div class="input-group">
+            <label for="numeros">Números (separados por vírgula):</label>
+            <input 
+                type="text" 
+                id="numeros" 
+                placeholder="Ex: 5, 8, 3, 9, 2, 7, 1, 6, 4, 10"
+                onkeypress="if(event.key==='Enter') calcularEstatisticas()">
+        </div>
+        
+        <button onclick="calcularEstatisticas()">Calcular Estatísticas</button>
+        
+        <div class="resultado" id="resultado"></div>
+        
+        <div class="explicacao">
+            <h4>📚 Explicação dos Conceitos:</h4>
+            <ul>
+                <li><strong>Média:</strong> Soma de todos os valores dividida pela quantidade de valores</li>
+                <li><strong>Moda:</strong> Valor que aparece com mais frequência no conjunto</li>
+                <li><strong>Mediana:</strong> Valor central quando os dados estão ordenados</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function calcularEstatisticas() {
+            const input = document.getElementById('numeros').value.trim();
+            
+            if (!input) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite os números!';
+                return;
+            }
+            
+            // Converter string em array de números
+            const numeros = input.split(',').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+            
+            if (numeros.length !== 10) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite exatamente 10 números válidos!';
+                return;
+            }
+            
+            // Calcular média
+            const media = numeros.reduce((sum, num) => sum + num, 0) / numeros.length;
+            
+            // Calcular moda
+            const frequencias = {};
+            numeros.forEach(num => {
+                frequencias[num] = (frequencias[num] || 0) + 1;
+            });
+            
+            let moda = [];
+            let maxFreq = 0;
+            for (const [num, freq] of Object.entries(frequencias)) {
+                if (freq > maxFreq) {
+                    moda = [parseFloat(num)];
+                    maxFreq = freq;
+                } else if (freq === maxFreq) {
+                    moda.push(parseFloat(num));
+                }
+            }
+            
+            // Calcular mediana
+            const numerosOrdenados = [...numeros].sort((a, b) => a - b);
+            const mediana = (numerosOrdenados[4] + numerosOrdenados[5]) / 2; // Média dos dois valores centrais
+            
+            document.getElementById('resultado').innerHTML = `
+                <h3>Resultado das Estatísticas:</h3>
+                
+                <div class="numeros-lista">
+                    <h4>📊 Números Informados:</h4>
+                    <p><strong>Números originais:</strong> ${numeros.join(', ')}</p>
+                    <p><strong>Números ordenados:</strong> ${numerosOrdenados.join(', ')}</p>
+                </div>
+                
+                <div class="estatistica">
+                    <h4>🧮 Cálculos:</h4>
+                    <p><strong>Média:</strong> (${numeros.join(' + ')}) ÷ 10 = ${media.toFixed(2)}</p>
+                    <p><strong>Moda:</strong> ${moda.length === 1 ? `O valor ${moda[0]} aparece ${maxFreq} vez${maxFreq !== 1 ? 'es' : ''}` : `Os valores ${moda.join(', ')} aparecem ${maxFreq} vez${maxFreq !== 1 ? 'es' : ''} cada`}</p>
+                    <p><strong>Mediana:</strong> Média dos valores centrais (${numerosOrdenados[4]} + ${numerosOrdenados[5]}) ÷ 2 = ${mediana.toFixed(2)}</p>
+                </div>
+                
+                <div class="estatistica">
+                    <h4>✅ Resultados Finais:</h4>
+                    <p><strong>Média:</strong> ${media.toFixed(2)}</p>
+                    <p><strong>Moda:</strong> ${moda.join(', ')}</p>
+                    <p><strong>Mediana:</strong> ${mediana.toFixed(2)}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

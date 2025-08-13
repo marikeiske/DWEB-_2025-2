@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 11 - Verificador de Triângulo Retângulo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .triangulo-info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .teorema {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border-left: 4px solid #ff9800;
+        }
+        .retangulo {
+            border-left-color: #4caf50;
+        }
+        .nao-retangulo {
+            border-left-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Verificador de Triângulo Retângulo</h1>
+        <p>Digite os valores dos catetos e da hipotenusa para verificar se é um triângulo retângulo:</p>
+        
+        <div class="input-group">
+            <label for="cateto1">Primeiro Cateto:</label>
+            <input type="number" id="cateto1" placeholder="Digite o valor do primeiro cateto" step="0.01" min="0">
+        </div>
+        
+        <div class="input-group">
+            <label for="cateto2">Segundo Cateto:</label>
+            <input type="number" id="cateto2" placeholder="Digite o valor do segundo cateto" step="0.01" min="0">
+        </div>
+        
+        <div class="input-group">
+            <label for="hipotenusa">Hipotenusa:</label>
+            <input type="number" id="hipotenusa" placeholder="Digite o valor da hipotenusa" step="0.01" min="0">
+        </div>
+        
+        <button onclick="verificarTriangulo()">Verificar Triângulo</button>
+        
+        <div class="resultado" id="resultado"></div>
+        
+        <div class="teorema">
+            <h4>📐 Teorema de Pitágoras:</h4>
+            <p><strong>a² + b² = c²</strong></p>
+            <p>Onde:</p>
+            <ul>
+                <li><strong>a</strong> e <strong>b</strong> são os catetos</li>
+                <li><strong>c</strong> é a hipotenusa</li>
+            </ul>
+            <p>Se a² + b² = c², então o triângulo é retângulo!</p>
+        </div>
+    </div>
+
+    <script>
+        function verificarTriangulo() {
+            const cateto1 = parseFloat(document.getElementById('cateto1').value);
+            const cateto2 = parseFloat(document.getElementById('cateto2').value);
+            const hipotenusa = parseFloat(document.getElementById('hipotenusa').value);
+            
+            if (isNaN(cateto1) || isNaN(cateto2) || isNaN(hipotenusa) || 
+                cateto1 <= 0 || cateto2 <= 0 || hipotenusa <= 0) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Digite valores válidos maiores que zero!';
+                return;
+            }
+            
+            // Verificar se é um triângulo válido
+            if (cateto1 + cateto2 <= hipotenusa || 
+                cateto1 + hipotenusa <= cateto2 || 
+                cateto2 + hipotenusa <= cateto1) {
+                document.getElementById('resultado').innerHTML = '<strong>Erro:</strong> Esses valores não formam um triângulo válido!';
+                return;
+            }
+            
+            // Aplicar o Teorema de Pitágoras
+            const somaCatetos = Math.pow(cateto1, 2) + Math.pow(cateto2, 2);
+            const hipotenusaQuadrado = Math.pow(hipotenusa, 2);
+            
+            // Verificar se é retângulo (com tolerância para erros de arredondamento)
+            const tolerancia = 0.0001;
+            const ehRetangulo = Math.abs(somaCatetos - hipotenusaQuadrado) < tolerancia;
+            
+            const classeCSS = ehRetangulo ? 'retangulo' : 'nao-retangulo';
+            const mensagem = ehRetangulo ? 'SIM, é um triângulo retângulo!' : 'NÃO, não é um triângulo retângulo.';
+            
+            document.getElementById('resultado').innerHTML = `
+                <h3>Resultado da Verificação:</h3>
+                
+                <div class="triangulo-info ${classeCSS}">
+                    <h4>📊 Valores Informados:</h4>
+                    <p><strong>Primeiro cateto:</strong> ${cateto1}</p>
+                    <p><strong>Segundo cateto:</strong> ${cateto2}</p>
+                    <p><strong>Hipotenusa:</strong> ${hipotenusa}</p>
+                </div>
+                
+                <div class="triangulo-info ${classeCSS}">
+                    <h4>🧮 Cálculos:</h4>
+                    <p><strong>a² + b²:</strong> ${cateto1}² + ${cateto2}² = ${Math.pow(cateto1, 2)} + ${Math.pow(cateto2, 2)} = ${somaCatetos}</p>
+                    <p><strong>c²:</strong> ${hipotenusa}² = ${hipotenusaQuadrado}</p>
+                    <p><strong>Diferença:</strong> |${somaCatetos} - ${hipotenusaQuadrado}| = ${Math.abs(somaCatetos - hipotenusaQuadrado)}</p>
+                </div>
+                
+                <div class="triangulo-info ${classeCSS}">
+                    <h4>✅ Conclusão:</h4>
+                    <p><strong>${mensagem}</strong></p>
+                    <p><strong>Razão:</strong> ${ehRetangulo ? 
+                        'Os valores satisfazem o Teorema de Pitágoras (a² + b² = c²)' : 
+                        'Os valores não satisfazem o Teorema de Pitágoras (a² + b² ≠ c²)'}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
